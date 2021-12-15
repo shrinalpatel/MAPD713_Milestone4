@@ -1,7 +1,16 @@
 // Group-6 Milestone 4
+/* Group6
+Author Name:
+ Akash
+ Fathima
+ Inderjit
+ Ridham 
+ Shrinal
+ Date: 5/12/2021
+ */
 
 var SERVER_NAME = 'patient-api'
-var PORT =  process.env.PORT || 3000;
+var PORT =  process.env.PORT || 8000;
 var HOST = '127.0.0.1';
 var getCounter = 0;
 var postCounter = 0;
@@ -16,8 +25,8 @@ var restify = require('restify')
   console.log('Resources:')
   console.log(' /patients')
   console.log(' /patients/:id')  
-  console.log(' /patients/records')
-  console.log(' /patients/:id/records')
+  console.log(' /patients/tests')
+  console.log(' /patients/:id/tests')
 })
 server
   // Allow the use of POST
@@ -37,7 +46,7 @@ server.get('/patients', function (req, res, next) {
 
 // Get all patients records in the system
 
-server.get('/patients/records', function (req, res, next) {
+server.get('/patients/tests', function (req, res, next) {
   // Find every entity within the given collection
   patientsRecSave.find({}, function (error, patientRecords) {
     // Return all of the patients records in the system
@@ -63,7 +72,7 @@ server.get('/patients/:id', function (req, res, next) {
 })
 
 // Get a single patient record by their patient id
-server.get('/patients/:id/records', function (req, res, next) {
+server.get('/patients/:id/tests', function (req, res, next) {
   // Find a single patient by their id within save
   patientsRecSave.findOne({ patient_id: req.params.id }, function (error, patientRecords) {
     // If there are any errors, pass them to next in the correct format
@@ -184,8 +193,8 @@ patientsSave.create( newPatient, function (error, patient) {
 })
 
 // Create a new patient Records
-server.post('/patients/:id/records', function (req, res, next) {
-  console.log("/Patients Records- Post Request - Received Request")
+server.post('/patients/:id/tests', function (req, res, next) {
+  console.log("/Patients tests - Post Request - Received Request")
   
   
   var newPatientRecords = {
@@ -201,7 +210,7 @@ server.post('/patients/:id/records', function (req, res, next) {
 // Create the patients using the persistence engine
 patientsRecSave.create( newPatientRecords, function (error, patientRecords) {
   postCounter = postCounter+1;
-  console.log("/Patient Records - Post Request - Sending Request " + patientRecords + " postCounter:" + postCounter)
+  console.log("/Patient tests - Post Request - Sending Request " + patientRecords + " postCounter:" + postCounter)
   // If there are any errors, pass them to next in the correct format
   if (error) return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
   // Send the user if no issues
@@ -225,7 +234,7 @@ server.del('/patients/:id', function (req, res, next) {
 })
 
 // Delete patient records with the given id
-server.del('/patients/:id/records', function (req, res, next) {
+server.del('/patients/:id/tests', function (req, res, next) {
 
   // Delete the patient records with the persistence engine
   patientsRecSave.delete(req.params.id, function (error, patientRecords) {
